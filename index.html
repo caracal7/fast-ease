@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>move.js - Fast and minimalistic javascript animation library</title>
+    <script src="dist/move.js"></script>
+    <style>
+        body {
+            background: #444;
+        }
+        button {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            height: 22px;
+            font-size: 10px;
+            color: black;
+            background: linear-gradient(#00FF8A, #00E050);
+            padding: 0 7px;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+<body>
+    <button id="testSingle">Animate single value</button>
+    <button id="testBatch" style="left:200px">Batch Animate "top" and "left"</button>
+
+    <script>
+        console.log(Move.easings);
+
+        var ID1;
+        var ID2;
+
+        document.getElementById('testSingle').onclick = event => {
+            var rect = event.target.getBoundingClientRect();
+            //  Stop the previous animation on this element, if any
+            cancelAnimationFrame(ID1);
+            //  Remember the animation ID and we can stop it at any time with it
+            ID1 = Move.animate(
+                //  Callback. Called when the value changes
+                top => event.target.style.top = top + 'px',
+                //  Easing function. You can use any of the 'Move.easings' or create your own.
+                Move.easings.inOutQuad,
+                //  Duration in milliseconds
+                500,
+                //  Initial value
+                rect.top,
+                //  Final value
+                ~~(Math.random() * 300) + 1
+            );
+        };
+
+        document.getElementById('testBatch').onclick = event => {
+            var rect = event.target.getBoundingClientRect();
+            //  Stop the previous animation on this element, if any
+            cancelAnimationFrame(ID2);
+            //  Remember the animation ID and we can stop it at any time with it
+            ID2 = Move.animateBatch(
+                //  Callback for first and second parameter in single batch. Called when the value changes
+                (top, left) => {
+                    event.target.style.top = top + 'px';
+                    event.target.style.left = left + 'px';
+                },
+                //  Easing function. You can use any of the 'Move.easings' or create your own.
+                Move.easings.inOutQuad,
+                //  Duration in milliseconds
+                500,
+                //  Parameters batch
+                [
+                    [rect.top,  ~~(Math.random() * 300) + 1],  // first parameter (initial and final value)
+                    [rect.left, ~~(Math.random() * 300) + 1]   // second parameter (initial and final value)
+                    // ... next parameters
+                ]
+            );
+        };
+    </script>
+</body>
+</html>
