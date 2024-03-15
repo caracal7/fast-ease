@@ -198,5 +198,5 @@
   };
 
   // src/iife.js
-  window.Move = src_default;
+  window.FastEase = src_default;
 })();

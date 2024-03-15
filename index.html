@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>move.js - Fast and minimalistic javascript animation library</title>
-    <script src="dist/move.js"></script>
+    <title>fast-ease.js - Fast and minimalistic javascript animation library</title>
+    <script src="dist/fast-ease.js"></script>
     <style>
         body {
             background: #444;
@@ -29,7 +29,7 @@
     <button id="testBatch" style="left:200px">Batch Animate "top" and "left"</button>
 
     <script>
-        console.log(Move.easings);
+        console.log(FastEase.easings);
 
         var ID1;
         var ID2;
@@ -39,11 +39,11 @@
             //  Stop the previous animation on this element, if any
             cancelAnimationFrame(ID1);
             //  Remember the animation ID and we can stop it at any time with it
-            ID1 = Move.animate(
+            ID1 = FastEase.animate(
                 //  Callback. Called when the value changes
                 top => event.target.style.top = top + 'px',
-                //  Easing function. You can use any of the 'Move.easings' or create your own.
-                Move.easings.inOutQuad,
+                //  Easing function. You can use any of the 'FastEase.easings' or create your own.
+                FastEase.easings.inOutQuad,
                 //  Duration in milliseconds
                 500,
                 //  Initial value
@@ -58,14 +58,14 @@
             //  Stop the previous animation on this element, if any
             cancelAnimationFrame(ID2);
             //  Remember the animation ID and we can stop it at any time with it
-            ID2 = Move.animateBatch(
+            ID2 = FastEase.animateBatch(
                 //  Callback for first and second parameter in single batch. Called when the value changes
                 (top, left) => {
                     event.target.style.top = top + 'px';
                     event.target.style.left = left + 'px';
                 },
-                //  Easing function. You can use any of the 'Move.easings' or create your own.
-                Move.easings.inOutQuad,
+                //  Easing function. You can use any of the 'FastEase.easings' or create your own.
+                FastEase.easings.inOutQuad,
                 //  Duration in milliseconds
                 500,
                 //  Parameters batch
