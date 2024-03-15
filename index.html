@@ -2,15 +2,29 @@
 <html>
 <head>
     <title>fast-ease.js - Fast and minimalistic javascript animation library</title>
+
+    <meta charset="utf-8">
+    <title>i.js - make JavaScript great again!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="www/css/style.css">
+    <!-- Fonts CSS -->
+    <link rel="stylesheet" type="text/css" href="www/font-awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="www/css/OpenSans.css">
+    <!-- Magic -->
+    <script src="www/ui.js"></script>
+
     <script src="dist/fast-ease.js"></script>
     <style>
         body {
             background: #444;
         }
-        button {
+        #testSingle, #testBatch {
             position: absolute;
-            top: 50px;
-            left: 50px;
+            width: 160px;
+            height: 50px;
+            top: 210px;
+            left: calc(50% - 100px);
             height: 22px;
             font-size: 10px;
             color: black;
@@ -20,17 +34,64 @@
             border-radius: 5px;
             box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
-
         }
     </style>
 </head>
 <body>
-    <button id="testSingle">Animate single value</button>
-    <button id="testBatch" style="left:200px">Batch Animate "top" and "left"</button>
+    <script type=ui index-header="www/tags/index-header"></script>
+    <script type=ui download-button="www/tags/download-button"></script>
+    <script type=ui site-footer="www/tags/footer"></script>
+    <script type=ui flex-cards=www/tags/flex-cards></script>
+    <script type=ui markdown-to-html=www/tags/markdown-it/markdown></script>
+
+
+    <!------------------------------------------------------------------------->
+
+    <index-header>
+        <b>easing</b><i>.js.org</i>
+        <p><strong>Fast</strong> and minimalistic javascript animation library</p>
+    </index-header>
+
+    <center>
+
+        <flex-cards>
+            <section>
+                <download-button href="dist/fast-ease.js" color="rgb(99, 185, 113)">
+                    fast-ease.js <i>IIFE</i> (6K)
+                </download-button><br>
+                <download-button href="dist/fast-ease.min.js" color="rgb(99, 185, 113)">
+                    fast-ease.min.js <i>IIFE minified</i> (6K)
+                </download-button>
+            </section>
+            <section>
+                <download-button href="dist/fast-ease.esm.js" color="rgb(185, 99, 185)">
+                    fast-ease.esm.js <i>ES module</i> (6K)
+                </download-button><br>
+                <download-button href="dist/fast-ease.esm.min.js" color="rgb(185, 99, 185)">
+                    fast-ease.esm.min.js <i>ES module minified</i> (6K)
+                </download-button>
+            </section>
+            <section>
+                <download-button href="dist/fast-ease.cjs.js" color="rgb(113, 99, 185)">
+                    fast-ease.cjs.js <i>CommonJS</i> (6K)
+                </download-button><br>
+                <download-button href="dist/fast-ease.cjs.js" color="rgb(113, 99, 185)">
+                    fast-ease.cjs.js <i>CommonJS</i> (6K)
+                </download-button>
+            </section>
+        </flex-cards>
+
+        <main>
+            <markdown-to-html url="README.md"></markdown-to-html>
+        </main>
+
+        <hr>
+
+    </center>
+
+    <site-footer></site-footer>
 
     <script>
-        console.log(FastEase.easings);
-
         var ID1;
         var ID2;
 

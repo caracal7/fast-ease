@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>i.js - make JavaScript great again!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- Fonts CSS -->
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/OpenSans.css">
+    <!-- Magic -->
+    <script type="module" src="/i.js"></script>
+</head>
+<body>
+    <i-js site-header       src="/tags/header"></i-js>
+    <i-js site-footer       src="/tags/footer"></i-js>
+    <i-js nav-article       src="/tags/nav-article"></i-js>
+
+    <!------------------------------------------------------------------------->
+
+    <site-header color="#8A40A7">
+        <nav><a href="/">Home</a> / FAQ</nav>
+    </site-header>
+
+    <!------------------------------------------------------------------------->
+
+    <nav-article color="#8A40A7">
+        <nav>
+            <ul>
+                <li><a href="#general">General</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+        </nav>
+        <article>
+            <h1><i class="icon fa fa-life-ring"></i> FAQ</h1>
+            <section id="general" class="doc-section">
+                <h2>General</h2>
+                <div>
+                    <h3 class="question"><i class="fa fa-question-circle"></i> What is <b>i.js</b>?</h3>
+                    <p class="answer">
+                        <b>i.js</b> is a future-proof micro library for building modern user interfaces. It can be easily used for building SEO-friendly regular websites but is more focused on building extremely big Single-Page Applications. You can use it with any popular framework like React, Vue or JQuery but after you taste the true power of <b>i.js</b> you would not need anything else. 
+                    </p>
+
+                    <h3 class="question"><i class="fa fa-question-circle"></i> What about browser support?</h3>
+                    <p class="answer">
+                        It is based on native <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web-Components spec</a> without any hacks and magic and works in any modern browser including mobile ones or SmartTVs.
+                        However it has not been tested widely, use at your own risk.
+                        Internet Explorer support is yet to be added but it may still run.
+                        Or may not :)
+                    </p>
+
+                    <h3 class="question"><i class="fa fa-question-circle"></i> How fast is it?</h3>
+                    <p class="answer">
+                        <b>i.js</b> is based on one of the fastest virtual DOM implementations over the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements">customElements</a>. <b>i.js</b> designed with performance in mind.
+                        It could be even faster but our goal was to keep balance between the speed of DOM/state manipulations and the speed of development with syntax sugar.
+                        Considering the power of modern PCs and smartphones the latter is a way more important task.
+                        Anyway <b>i.js</b> is faster then most of UI frameworks on the market🤘
+                    </p>
+
+                    <h3 class="question" ><i class="fa fa-question-circle"></i> Can I use it in production right now?</h3>
+                    <p class="answer">
+                        <b>No</b>. Noway. But <b>yes</b> if you know what you are doing. 🤓 You can still use it for prototyping of your great ideas☝️.
+                    </p>
+
+                    <h5>Pros</h5>
+                    <ul>
+                        <li>lightweight, solid, <b>cool</b> and just working</li>
+                        <li>true reactive</li>
+                        <li>blazing fast</li>
+                        <li>no toolchain and building process</li>
+                        <li>nice and concise syntax</li>
+                        <li>best <b>time to market</b> ever</li>
+                    </ul>
+
+                    <h5>Cons</h5>
+                    <ul>
+                        <li>still experimental</li>
+                        <li>too young</li>
+                        <li>not enough support of developers so far. Sorry  🤪</li>
+                        <li>not documented yet</li>
+                        <li>no community at all</li>
+                        <li>you need to follow a diet (like be careful in synthax, etc) to avoid issues</li>
+                        <li>no support for old browsers</li>
+                    </ul>
+
+                    <h6>Side note</h6>
+
+
+                    <p>
+                        We use this development concept in production since late 2020 in a closed environment in a group of companies.
+                        It includes realtime ERP for several production factories, realtime CRM for a trading company as well as a number of small applications like industrial robots control panel🤖 and so on.
+                        In closed environments like these we may not really care about browsers as a certain one can be used across all companies, reaction for any change request is fast, etc.
+                        At the moment we are not ready to maintain it and provide support outisde our companies.
+                        <strong>But you can still use it on your own risk</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section id="pricing">
+                <h2>Pricing</h2>
+                <div>
+                    <h3 class="question"><i class="fa fa-question-circle"></i> How much?</h3>
+                    <p class="answer">
+                        <b>i.js</b> is <b>free</b> and distributed under MIT licence. Full source code will be released later after it will be fully documented.
+                    </p>
+                </div>
+            </section>
+
+        </article>
+    </nav-article>
+
+
+    <!------------------------------------------------------------------------->
+
+    <site-footer></site-footer>
+</body>
+</html>

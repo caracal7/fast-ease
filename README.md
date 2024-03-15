@@ -1,4 +1,4 @@
-# fast-ease.js
+# fast-ease
 
 Fast and minimalistic javascript animation library
 
