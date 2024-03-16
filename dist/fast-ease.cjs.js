@@ -22,38 +22,55 @@ __export(src_exports, {
   animate: () => animate,
   animateBatch: () => animateBatch,
   default: () => src_default,
-  easings: () => easings
+  easings: () => easings,
+  stop: () => stop
 });
 module.exports = __toCommonJS(src_exports);
-function animate(callback, ease, duration = 1e3, from = 0, to = 300) {
+var running = {};
+var finish = {};
+var id = 0;
+var animate = (callback, ease, duration = 1e3, from, to, done) => {
+  id++;
   var start = performance.now();
   var end = start + duration;
-  var id;
+  done && (finish[id] = done);
   function frame(now) {
     var delta = now - start;
     if (delta >= duration)
-      return cancelAnimationFrame(id);
+      return cancelAnimationFrame(running[id]) || delete running[id] && delete finish[id] && done && done(id);
     callback(from + (to - from) * ease(delta / duration));
-    id = requestAnimationFrame(frame);
+    running[id] = requestAnimationFrame(frame);
   }
-  return id = requestAnimationFrame(frame);
-}
-function animateBatch(callback, ease, duration = 1e3, batch) {
+  running[id] = requestAnimationFrame(frame);
+  return id;
+};
+var animateBatch = (callback, ease, duration = 1e3, batch, done) => {
+  id++;
   var start = performance.now();
   var end = start + duration;
-  var id;
   var interpolated = new Array(batch[0].length);
+  done && (finish[id] = done);
   function frame(now) {
     var delta = now - start;
     if (delta >= duration)
-      return cancelAnimationFrame(id);
+      return cancelAnimationFrame(running[id]) || delete running[id] && delete finish[id] && done && done(id);
     var easing = ease(delta / duration);
     batch.forEach((value, index) => interpolated[index] = value[0] + (value[1] - value[0]) * easing);
     callback(...interpolated);
-    id = requestAnimationFrame(frame);
+    running[id] = requestAnimationFrame(frame);
   }
-  return id = requestAnimationFrame(frame);
-}
+  running[id] = requestAnimationFrame(frame);
+  return id;
+};
+var stop = (id2) => {
+  cancelAnimationFrame(running[id2]);
+  delete running[id2];
+  if (finish[id2]) {
+    var done = finish[id2];
+    delete finish[id2];
+    done(id2);
+  }
+};
 var easings = {};
 easings.linear = function(n) {
   return n;
@@ -219,5 +236,6 @@ easings.inOutElastic = function(n) {
 var src_default = {
   animate,
   animateBatch,
+  stop,
   easings
 };
