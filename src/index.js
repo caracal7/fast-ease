@@ -17,36 +17,54 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function animate(callback, ease, duration = 1000, from = 0, to = 300) {
-    var start = performance.now();
-    var end = start + duration;
-    var id;
-    function frame(now) {
-        var delta = now - start;
-        if (delta >= duration) return cancelAnimationFrame(id);
-        callback(from + (to - from) * ease(delta / duration));
-        id = requestAnimationFrame(frame);
-    }
-    return id = requestAnimationFrame(frame);
-}
+const running = {};
+const finish = {};
+var id = 0;
 
-function animateBatch(callback, ease, duration = 1000, batch) {
+const animate = (callback, ease, duration = 1000, from, to, done) => {
+    id++;
     var start = performance.now();
     var end = start + duration;
-    var id;
-    var interpolated = new Array(batch[0].length);
+    done && (finish[id] = done);
     function frame(now) {
         var delta = now - start;
-        if (delta >= duration) return cancelAnimationFrame(id);
+        if (delta >= duration) return cancelAnimationFrame(running[id]) || ((delete running[id]) && (delete finish[id]) && done && done(id));
+        callback(from + (to - from) * ease(delta / duration));
+        running[id] = requestAnimationFrame(frame);
+    }
+    running[id] = requestAnimationFrame(frame);
+    return id;
+};
+
+const animateBatch = (callback, ease, duration = 1000, batch, done) => {
+    id++;
+    var start = performance.now();
+    var end = start + duration;
+    var interpolated = new Array(batch[0].length);
+    done && (finish[id] = done);
+    function frame(now) {
+        var delta = now - start;
+        if (delta >= duration) return cancelAnimationFrame(running[id]) || ((delete running[id]) && (delete finish[id]) && done && done(id));
         var easing = ease(delta / duration);
         batch.forEach((value, index) => interpolated[index] = value[0] + (value[1] - value[0]) * easing);
         callback(...interpolated);
-        id = requestAnimationFrame(frame);
+        running[id] = requestAnimationFrame(frame);
     }
-    return id = requestAnimationFrame(frame);
-}
+    running[id] = requestAnimationFrame(frame);
+    return id;
+};
 
-var easings = {};
+const stop = id => {
+    cancelAnimationFrame(running[id])
+    delete running[id];
+    if(finish[id]) {
+        var done = finish[id];
+        delete finish[id];
+        done(id);
+    }
+};
+
+const easings = {};
 /*
     https://github.com/component/ease
     These easing functions were originally written by Robert Penner, and optimized by the tween.js authors.
@@ -221,6 +239,7 @@ easings.inOutElastic = function(n){
 export {
     animate,
     animateBatch,
+    stop,
 
     easings
 }
@@ -228,6 +247,7 @@ export {
 export default {
     animate,
     animateBatch,
+    stop,
 
     easings
 }

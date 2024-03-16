@@ -20,7 +20,7 @@ code {
     <!import { "Add, Num" } "from example.js">
 */
 .hljs-keyword {
-    color: gold;
+    color: #e06398;
 }
 .hljs-link {
     color: blueviolet;
@@ -55,7 +55,20 @@ code {
 }
 
 .hljs-title {
-    color: #5167c2;
+    color: #97a7ec;
+}
+
+.hljs-property {
+    color: #97beec;
+}
+
+.hljs-function {
+    color: #97ec98;
+}
+
+.hljs-number {
+    color: gold;
+    font-weight: bold;
 }
 
 

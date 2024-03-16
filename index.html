@@ -13,18 +13,15 @@
     <!-- Magic -->
     <script src="www/ui.js"></script>
 
-    <script src="dist/fast-ease.js"></script>
+    <script type="module" src="src/iife.js"></script>
     <style>
         body {
             background: #444;
         }
-        #testSingle, #testBatch {
+        #testSingle, #testBatch, #testStop {
             position: absolute;
             width: 160px;
             height: 30px;
-            top: 210px;
-            left: calc(50% - 80px);
-
             font-size: 10px;
             color: black;
             background: linear-gradient(#00FF8A, #00E050);
@@ -33,9 +30,13 @@
             border-radius: 5px;
             box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            z-index: 100;
         }
         #testBatch {
-            top: 240px;
+            background: linear-gradient(#00baff, #0082e0);
+        }
+        #testStop {
+            background: linear-gradient(#ff8200, #e08d00);
         }
     </style>
 </head>
@@ -83,11 +84,14 @@
             </section>
         </flex-cards>
 
-        <button id="testSingle">Animate single value</button>
-        <button id="testBatch">Batch Animate "top" and "left"</button>
+
 
 
         <main>
+            <button id="testSingle" style="top:20px;left:100px;">Animate single value</button>
+            <button id="testBatch" style="top:20px;left:300px;">Batch animate "top" and "left"</button>
+            <button id="testStop" style="top:20px;left:500px;">Stop all animations</button>
+            <br>
             <markdown-to-html url="README.md"></markdown-to-html>
         </main>
 
@@ -101,29 +105,38 @@
         var ID1;
         var ID2;
 
-        document.getElementById('testSingle').onclick = event => {
-            var rect = event.target.getBoundingClientRect();
+        function Stop() {
+            //  Stop all animations
+            FastEase.stop(ID1);
+            FastEase.stop(ID2);
+        }
+
+        function testSingle(event) {
+
+            console.log(event.target.style.top.slice(0, -2).split('.')[0])
+
             //  Stop the previous animation on this element, if any
-            cancelAnimationFrame(ID1);
+            FastEase.stop(ID1);
             //  Remember the animation ID and we can stop it at any time with it
             ID1 = FastEase.animate(
                 //  Callback. Called when the value changes
                 top => event.target.style.top = top + 'px',
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
-                FastEase.easings.outBounce,
+                FastEase.easings.inOutElastic,
                 //  Duration in milliseconds
-                500,
+                1500,
                 //  Initial value
-                rect.top,
+                Number(event.target.style.top.slice(0, -2)),
                 //  Final value
-                ~~(Math.random() * 300) + 1
+                ~~(Math.random() * 600) - 300,
+                //  Callback on animation finished
+                id => console.log('Animation finished', id)
             );
-        };
+        }
 
-        document.getElementById('testBatch').onclick = event => {
-            var rect = event.target.getBoundingClientRect();
+        function testBatch(event) {
             //  Stop the previous animation on this element, if any
-            cancelAnimationFrame(ID2);
+            FastEase.stop(ID1);
             //  Remember the animation ID and we can stop it at any time with it
             ID2 = FastEase.animateBatch(
                 //  Callback for first and second parameter in single batch. Called when the value changes
@@ -134,15 +147,22 @@
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
                 FastEase.easings.outBounce,
                 //  Duration in milliseconds
-                500,
+                1500,
                 //  Parameters batch
                 [
-                    [rect.top,  ~~(Math.random() * 300) + 1],  // first parameter (initial and final value)
-                    [rect.left, ~~(Math.random() * 300) + 1]   // second parameter (initial and final value)
+                    [Number(event.target.style.top.slice(0, -2)),  ~~(Math.random() * 600) - 300],  // first parameter (initial and final value)
+                    [Number(event.target.style.left.slice(0, -2)), ~~(Math.random() * 600) - 300]   // second parameter (initial and final value)
                     // ... next parameters
-                ]
+                ],
+                //  Callback on animation finished
+                id => console.log('Animation finished', id)
             );
         };
+
+        document.getElementById('testStop').onclick = Stop;
+        document.getElementById('testSingle').onclick = testSingle;
+        document.getElementById('testBatch').onclick = testBatch;
+
     </script>
 </body>
 </html>
