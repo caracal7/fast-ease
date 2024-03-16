@@ -41,24 +41,5 @@
         position: relative;
         display: block;
         width: 100%;
-    }
-
-    * {
         font-family: Arial, Helvetica, sans-serif;
-    }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    tr:nth-child(even){
-        background-color: #fafafa;
-    }
-    thead tr {
-        background-color: #f5f5f5;
     }

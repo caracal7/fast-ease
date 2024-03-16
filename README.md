@@ -1,10 +1,30 @@
-# fast-ease
+# fast-ease.js
 
 Fast and minimalistic javascript animation library
 
 ## Why?
 
-Most animation libraries are overloaded with different functions and contain a lot of overhead, although in real life you often only need the ability to interpolate between two values, but at very high speed. That's why :)
+Most animation libraries are overloaded with different functions and contain a lot of overhead, although in real life you often only need the ability to interpolate between two values, but at very high speed.
+This library is intended to be a lower level layer for more complex animation engines.
+
+
+## API
+
+### Animate single value
+
+```javascript
+    const animationID = FastEase.animate(updateCallback, easingFunction, animationDuration, initialValue, finalValue, onDoneCallback);
+```
+
+### Animate single value
+
+```javascript
+    const animationID = FastEase.animateBatch(updateCallback, easingFunction, animationDuration, [
+        [initialValue1, finalValue1],  
+        [initialValue2, finalValue2]
+        // ...
+    ], onDoneCallback);
+```
 
 ## Easing functions
 

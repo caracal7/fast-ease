@@ -29,6 +29,10 @@
 
 
 <!style>
+    :host {
+        display:inline-block;
+        margin: 5px;
+    }
     svg {
         position: absolute;
         top:10px;

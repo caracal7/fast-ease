@@ -9,7 +9,6 @@
     <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="www/css/style.css">
     <!-- Fonts CSS -->
-    <link rel="stylesheet" type="text/css" href="www/font-awesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="www/css/OpenSans.css">
     <!-- Magic -->
     <script src="www/ui.js"></script>
@@ -22,10 +21,10 @@
         #testSingle, #testBatch {
             position: absolute;
             width: 160px;
-            height: 50px;
+            height: 30px;
             top: 210px;
-            left: calc(50% - 100px);
-            height: 22px;
+            left: calc(50% - 80px);
+
             font-size: 10px;
             color: black;
             background: linear-gradient(#00FF8A, #00E050);
@@ -35,10 +34,13 @@
             box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
         }
+        #testBatch {
+            top: 240px;
+        }
     </style>
 </head>
 <body>
-    <script type=ui index-header="www/tags/index-header"></script>
+    <script type=ui index-header="www/tags/header"></script>
     <script type=ui download-button="www/tags/download-button"></script>
     <script type=ui site-footer="www/tags/footer"></script>
     <script type=ui flex-cards=www/tags/flex-cards></script>
@@ -48,7 +50,7 @@
     <!------------------------------------------------------------------------->
 
     <index-header>
-        <b>easing</b><i>.js.org</i>
+        <b>fast-ease</b><i>.js.org</i>
         <p><strong>Fast</strong> and minimalistic javascript animation library</p>
     </index-header>
 
@@ -57,29 +59,33 @@
         <flex-cards>
             <section>
                 <download-button href="dist/fast-ease.js" color="rgb(99, 185, 113)">
-                    fast-ease.js <i>IIFE</i> (6K)
+                    fast-ease.js<br><i>IIFE</i> (5K)
                 </download-button><br>
                 <download-button href="dist/fast-ease.min.js" color="rgb(99, 185, 113)">
-                    fast-ease.min.js <i>IIFE minified</i> (6K)
+                    fast-ease.min.js<br><i>IIFE minified</i> (3K)
                 </download-button>
             </section>
             <section>
                 <download-button href="dist/fast-ease.esm.js" color="rgb(185, 99, 185)">
-                    fast-ease.esm.js <i>ES module</i> (6K)
+                    fast-ease.esm.js<br><i>ES module</i> (5K)
                 </download-button><br>
                 <download-button href="dist/fast-ease.esm.min.js" color="rgb(185, 99, 185)">
-                    fast-ease.esm.min.js <i>ES module minified</i> (6K)
+                    fast-ease.esm.min.js<br><i>ES module minified</i> (3K)
                 </download-button>
             </section>
             <section>
                 <download-button href="dist/fast-ease.cjs.js" color="rgb(113, 99, 185)">
-                    fast-ease.cjs.js <i>CommonJS</i> (6K)
+                    fast-ease.cjs.js<br><i>CommonJS</i> (5K)
                 </download-button><br>
-                <download-button href="dist/fast-ease.cjs.js" color="rgb(113, 99, 185)">
-                    fast-ease.cjs.js <i>CommonJS</i> (6K)
+                <download-button href="dist/fast-ease.cjs.min.js" color="rgb(113, 99, 185)">
+                    fast-ease.cjs.js<br><i>CommonJS minified</i> (3K)
                 </download-button>
             </section>
         </flex-cards>
+
+        <button id="testSingle">Animate single value</button>
+        <button id="testBatch">Batch Animate "top" and "left"</button>
+
 
         <main>
             <markdown-to-html url="README.md"></markdown-to-html>
@@ -104,7 +110,7 @@
                 //  Callback. Called when the value changes
                 top => event.target.style.top = top + 'px',
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
-                FastEase.easings.inOutQuad,
+                FastEase.easings.outBounce,
                 //  Duration in milliseconds
                 500,
                 //  Initial value
@@ -126,7 +132,7 @@
                     event.target.style.left = left + 'px';
                 },
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
-                FastEase.easings.inOutQuad,
+                FastEase.easings.outBounce,
                 //  Duration in milliseconds
                 500,
                 //  Parameters batch
