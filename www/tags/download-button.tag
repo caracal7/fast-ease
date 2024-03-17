@@ -29,9 +29,12 @@
 
 
 <!style>
+    *  {
+        box-sizing: border-box;
+    }
     :host {
-        display:inline-block;
-        margin: 5px;
+        display:block;
+        width: 100%;
     }
     svg {
         position: absolute;
@@ -40,6 +43,7 @@
         width: 19px;
     }
     a {
+        width: 100%;
         text-decoration: none;
         position: relative;
         display: inline-block;
@@ -53,8 +57,7 @@
         font-weight: 600;
         font-size: 14px;
         line-height: 1.5;
-
-        margin: 5px 0;
+;
         padding: 7px 15px 7px 38px;
         border: 1px solid transparent;
         border-radius: 4px;

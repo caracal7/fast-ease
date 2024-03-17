@@ -21,12 +21,12 @@
         #testSingle, #testBatch, #testStop {
             position: absolute;
             width: 160px;
-            height: 30px;
+            height: 28px;
             font-size: 10px;
             color: black;
             background: linear-gradient(#00FF8A, #00E050);
             padding: 0 7px;
-            border: 1px solid black;
+            border: none;
             border-radius: 5px;
             box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
@@ -67,14 +67,6 @@
                 </download-button>
             </section>
             <section>
-                <download-button href="dist/fast-ease.esm.js" color="rgb(185, 99, 185)">
-                    fast-ease.esm.js<br><i>ES module</i> (5K)
-                </download-button><br>
-                <download-button href="dist/fast-ease.esm.min.js" color="rgb(185, 99, 185)">
-                    fast-ease.esm.min.js<br><i>ES module minified</i> (3K)
-                </download-button>
-            </section>
-            <section>
                 <download-button href="dist/fast-ease.cjs.js" color="rgb(113, 99, 185)">
                     fast-ease.cjs.js<br><i>CommonJS</i> (5K)
                 </download-button><br>
@@ -82,16 +74,26 @@
                     fast-ease.cjs.js<br><i>CommonJS minified</i> (3K)
                 </download-button>
             </section>
+            <section>
+                <download-button href="dist/fast-ease.esm.js" color="rgb(185, 99, 185)">
+                    fast-ease.esm.js<br><i>ES module</i> (5K)
+                </download-button><br>
+                <download-button href="dist/fast-ease.esm.min.js" color="rgb(185, 99, 185)">
+                    fast-ease.esm.min.js<br><i>ES module minified</i> (3K)
+                </download-button>
+            </section>
         </flex-cards>
 
 
 
 
+        <main style="height:130px">
+            <button id="testSingle" style="top:20px;left:20px;">Animate single value</button>
+            <button id="testBatch" style="top:50px;left:20px;">Batch animate "top" and "left"</button>
+            <button id="testStop" style="top:80px;left:20px;">Stop all animations</button>
+        </main>
+        <br>
         <main>
-            <button id="testSingle" style="top:20px;left:100px;">Animate single value</button>
-            <button id="testBatch" style="top:20px;left:300px;">Batch animate "top" and "left"</button>
-            <button id="testStop" style="top:20px;left:500px;">Stop all animations</button>
-            <br>
             <markdown-to-html url="README.md"></markdown-to-html>
         </main>
 
@@ -112,9 +114,6 @@
         }
 
         function testSingle(event) {
-
-            console.log(event.target.style.top.slice(0, -2).split('.')[0])
-
             //  Stop the previous animation on this element, if any
             FastEase.stop(ID1);
             //  Remember the animation ID and we can stop it at any time with it
@@ -124,7 +123,7 @@
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
                 FastEase.easings.inOutElastic,
                 //  Duration in milliseconds
-                1500,
+                2000,
                 //  Initial value
                 Number(event.target.style.top.slice(0, -2)),
                 //  Final value
@@ -147,11 +146,11 @@
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
                 FastEase.easings.outBounce,
                 //  Duration in milliseconds
-                1500,
+                2000,
                 //  Parameters batch
                 [
-                    [Number(event.target.style.top.slice(0, -2)),  ~~(Math.random() * 600) - 300],  // first parameter (initial and final value)
-                    [Number(event.target.style.left.slice(0, -2)), ~~(Math.random() * 600) - 300]   // second parameter (initial and final value)
+                    [Number(event.target.style.top.slice(0, -2)),  ~~(Math.random() * 300)],  // first parameter (initial and final value)
+                    [Number(event.target.style.left.slice(0, -2)), ~~(Math.random() * 300)]   // second parameter (initial and final value)
                     // ... next parameters
                 ],
                 //  Callback on animation finished

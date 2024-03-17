@@ -15,7 +15,7 @@ Designed to be a lower level layer for more complex animation engines, this libr
 ```javascript
     const animationID = FastEase.animate(
         updateCallback,     // interpolatedValue => {};
-        easingFunction,     // FastEase.inOutElastic;
+        easingFunction,     // FastEase.easings.inOutElastic;
         animationDuration,  // 3000
         initialValue,       // -100
         finalValue,         // 100
@@ -28,7 +28,7 @@ Designed to be a lower level layer for more complex animation engines, this libr
 ```javascript
     const animationID = FastEase.animateBatch(
         updateCallback,     // (...interpolated) => {};
-        easingFunction,     // FastEase.inOutElastic;
+        easingFunction,     // FastEase.easings.inOutElastic;
         animationDuration,  // 3000
         [
             [initialValue1, finalValue1],  // [-100, 100]
