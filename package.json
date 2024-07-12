@@ -1,6 +1,6 @@
 {
   "name": "fast-ease",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Fast and minimalistic javascript animation library",
   "main": "dist/fast-ease.cjs.js",
   "browser": "dist/fast-ease.esm.js",

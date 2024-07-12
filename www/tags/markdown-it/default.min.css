@@ -2,6 +2,8 @@ pre code {
     display: block;
     overflow-x: auto;
     padding: 1em;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 10px!important;
 }
 
 code {
@@ -12,7 +14,7 @@ code {
 }
 
 .hljs-meta { /*  <!state> <!DOCTYPE> */
-    font-weight: 700;
+/*    font-weight: 700;*/
     color: #ff5732;
 }
 
@@ -68,7 +70,7 @@ code {
 
 .hljs-number {
     color: gold;
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 
@@ -90,7 +92,7 @@ code {
 }
 
 .hljs-comment {   /* comment*/
-    color: #aaaaaa;
+    color: #555555;
 }
 .hljs-deletion {
     color: #ff5732;
@@ -108,7 +110,7 @@ code {
 .hljs-strong,
 .hljs-title,
 .hljs-type {
-    font-weight: 700;
+/*    font-weight: 700;*/
 }
 
 .hljs-emphasis {

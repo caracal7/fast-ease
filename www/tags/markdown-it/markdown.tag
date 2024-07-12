@@ -41,8 +41,6 @@
         position: relative;
         display: block;
         width: 100%;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 14px;
     }
 
     @media only screen and (max-width: 800px) {

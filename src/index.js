@@ -17,52 +17,71 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-const running = {};
-const finish = {};
-var id = 0;
 
-const animate = (callback, ease, duration = 1000, from, to, done) => {
-    id++;
-    var start = performance.now();
-    var end = start + duration;
-    done && (finish[id] = done);
-    function frame(now) {
-        var delta = now - start;
-        if (delta >= duration) return cancelAnimationFrame(running[id]) || ((delete running[id]) && (delete finish[id]) && done && done(id));
-        callback(from + (to - from) * ease(delta / duration));
-        running[id] = requestAnimationFrame(frame);
-    }
-    running[id] = requestAnimationFrame(frame);
-    return id;
+function stop() {
+    if(!this.rafId) return;
+    cancelAnimationFrame(this.rafId);
+    if(this.done) this.done();
+    this.rafId = null;
 };
 
-const animateBatch = (callback, ease, duration = 1000, batch, done) => {
-    id++;
+function animate(callback, ease, duration = 1000, from, to, done) {
+    this.done = done;
     var start = performance.now();
-    var end = start + duration;
+    var dist = to - from;
+
+    const frame = now => {
+        var delta = now - start;
+        if (delta >= duration) return this.stop();
+        callback(from + dist * ease(delta / duration));
+        this.rafId = requestAnimationFrame(frame);
+    };
+
+    this.rafId = requestAnimationFrame(frame);
+};
+
+animate.prototype.stop = stop;
+
+function animateBatch1(callback, ease, duration = 1000, batch, done) {
+    this.done = done;
+    var start = performance.now();
     var interpolated = new Array(batch[0].length);
-    done && (finish[id] = done);
-    function frame(now) {
+
+    const frame = now => {
         var delta = now - start;
-        if (delta >= duration) return cancelAnimationFrame(running[id]) || ((delete running[id]) && (delete finish[id]) && done && done(id));
+        if (delta >= duration) return this.stop();
         var easing = ease(delta / duration);
-        batch.forEach((value, index) => interpolated[index] = value[0] + (value[1] - value[0]) * easing);
-        callback(...interpolated);
-        running[id] = requestAnimationFrame(frame);
-    }
-    running[id] = requestAnimationFrame(frame);
-    return id;
+        batch.forEach(([ from, to ], index) => interpolated[index] = from + (to - from) * easing);
+        callback(interpolated);
+        this.rafId = requestAnimationFrame(frame);
+    };
+
+    this.rafId = requestAnimationFrame(frame);
 };
 
-const stop = id => {
-    cancelAnimationFrame(running[id])
-    delete running[id];
-    if(finish[id]) {
-        var done = finish[id];
-        delete finish[id];
-        done(id);
-    }
-};
+animateBatch1.prototype.stop = stop;
+
+function animateBatch2(callback, batch, done) {
+    this.done = done;
+    var start = performance.now();
+    var interpolated = new Array(batch[0].length);
+    var maxDuration = batch.reduce((prev, [,current]) => (prev && prev[1] > current) ? prev[1] : current);
+
+    const frame = now => {
+        var delta = now - start;
+        if (delta >= maxDuration) return this.stop();
+        batch.forEach(([ ease, duration, from, to ], index) => {
+            if (delta >= duration) return;
+            interpolated[index] = from + (to - from) * ease(delta / duration)
+        });
+        callback(interpolated);
+        this.rafId = requestAnimationFrame(frame);
+    };
+
+    this.rafId = requestAnimationFrame(frame);
+}
+
+animateBatch2.prototype.stop = stop;
 
 const easings = {};
 /*
@@ -238,16 +257,14 @@ easings.inOutElastic = function(n){
 
 export {
     animate,
-    animateBatch,
-    stop,
-
+    animateBatch1,
+    animateBatch2,
     easings
 }
 
 export default {
     animate,
-    animateBatch,
-    stop,
-
+    animateBatch1,
+    animateBatch2,
     easings
 }

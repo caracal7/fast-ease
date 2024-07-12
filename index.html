@@ -17,10 +17,10 @@
         body {
             background: #444;
         }
-        #testSingle, #testBatch, #testStop {
+        #testSingle, #testBatch1, #testBatch2, #testStop {
             position: absolute;
             width: 160px;
-            height: 28px;
+            height: 40px;
             font-size: 10px;
             color: black;
             background: linear-gradient(#00FF8A, #00E050);
@@ -30,9 +30,13 @@
             box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
             z-index: 100;
+            font-weight: bold;
         }
-        #testBatch {
+        #testBatch1 {
             background: linear-gradient(#00baff, #0082e0);
+        }
+        #testBatch2 {
+            background: linear-gradient(#baff00, #82e000);
         }
         #testStop {
             background: linear-gradient(#ff8200, #e08d00);
@@ -86,10 +90,11 @@
 
 
 
-        <main style="height:130px">
-            <button id="testSingle" style="top:20px;left:20px;">Animate single value</button>
-            <button id="testBatch" style="top:50px;left:20px;">Batch animate "top" and "left"</button>
-            <button id="testStop" style="top:80px;left:20px;">Stop all animations</button>
+        <main style="height:204px">
+            <button id="testSingle" style="top:20px;left:20px;">FastEase.animate()</button>
+            <button id="testBatch1" style="top:62px;left:20px;">FastEase.animateBatch1()</button>
+            <button id="testBatch2" style="top:104px;left:20px;">FastEase.animateBatch2()</button>
+            <button id="testStop" style="top:146px;left:20px;">animation.stop()</button>
         </main>
         <br>
         <main>
@@ -103,20 +108,22 @@
     <site-footer></site-footer>
 
     <script>
-        var ID1;
-        var ID2;
+        var ANIM1;
+        var ANIM2;
+        var ANIM3;
 
         function Stop() {
             //  Stop all animations
-            FastEase.stop(ID1);
-            FastEase.stop(ID2);
+            if(ANIM1) ANIM1.stop();
+            if(ANIM2) ANIM2.stop();
+            if(ANIM3) ANIM3.stop();
         }
 
         function testSingle(event) {
             //  Stop the previous animation on this element, if any
-            FastEase.stop(ID1);
+            if(ANIM1) ANIM1.stop();
             //  Remember the animation ID and we can stop it at any time with it
-            ID1 = FastEase.animate(
+            ANIM1 = new FastEase.animate(
                 //  Callback. Called when the value changes
                 top => event.target.style.top = top + 'px',
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
@@ -128,24 +135,24 @@
                 //  Final value
                 ~~(Math.random() * 600) - 300,
                 //  Callback on animation finished
-                id => console.log('Animation finished', id)
+                () => console.log('Animation finished')
             );
         }
 
-        function testBatch(event) {
+        function testBatch1(event) {
             //  Stop the previous animation on this element, if any
-            FastEase.stop(ID1);
+            if(ANIM2) ANIM2.stop();
             //  Remember the animation ID and we can stop it at any time with it
-            ID2 = FastEase.animateBatch(
+            ANIM2 = new FastEase.animateBatch1(
                 //  Callback for first and second parameter in single batch. Called when the value changes
-                (top, left) => {
+                ([ top, left ]) => {
                     event.target.style.top = top + 'px';
                     event.target.style.left = left + 'px';
                 },
                 //  Easing function. You can use any of the 'FastEase.easings' or create your own.
                 FastEase.easings.outBounce,
                 //  Duration in milliseconds
-                2000,
+                3500,
                 //  Parameters batch
                 [
                     [Number(event.target.style.top.slice(0, -2)),  ~~(Math.random() * 300)],  // first parameter (initial and final value)
@@ -153,13 +160,42 @@
                     // ... next parameters
                 ],
                 //  Callback on animation finished
-                id => console.log('Animation finished', id)
+                () => console.log('Animation finished')
+            );
+        };
+
+        function testBatch2(event) {
+            //  Stop the previous animation on this element, if any
+            if(ANIM3) ANIM3.stop();
+
+
+            var lastRotate = Number(event.target.style.transform.slice(0, -4).slice(7));
+            if(lastRotate > 358) lastRotate = 0;
+
+            //  Remember the animation ID and we can stop it at any time with it
+            ANIM3 = new FastEase.animateBatch2(
+                //  Callback for first and second parameter in single batch. Called when the value changes
+                ([ top, left, rotate ]) => {
+                    event.target.style.top = top + 'px';
+                    event.target.style.left = left + 'px';
+                    event.target.style.transform = `rotate(${rotate}deg)`;
+                },
+                //  Parameters batch
+                [
+                    [FastEase.easings.outBounce, 1000, Number(event.target.style.top.slice(0,-2)),  ~~(Math.random() * 300)],   // Easing, duration, from, to
+                    [FastEase.easings.inBounce,  3000, Number(event.target.style.left.slice(0, -2)), ~~(Math.random() * 300)],  // Easing, duration, from, to
+                    [FastEase.easings.inBounce,  6000, lastRotate, 360] // Easing, duration, from, to
+                    // ... next parameters
+                ],//)
+                //  Callback on animation finished
+                () => console.log('Animation finished')
             );
         };
 
         document.getElementById('testStop').onclick = Stop;
         document.getElementById('testSingle').onclick = testSingle;
-        document.getElementById('testBatch').onclick = testBatch;
+        document.getElementById('testBatch1').onclick = testBatch1;
+        document.getElementById('testBatch2').onclick = testBatch2;
 
     </script>
 </body>
